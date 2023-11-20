@@ -1,17 +1,11 @@
 clear all
 
 tabs_s = [295 300 305];
-colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.993248 0.906157 0.143936];
+colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.8784 0.7137 0.1686];
 deltaSST = {'0p625' '1p25' '2p5'};
-% deltaSST = {'0p625' '0p75' '1' '1p25' '1p5' '2' '2p5' '3' '5'};
-% deltaSST = {'0p625' '0p75' '1' '1p25' '2p5' '5'};
 dSST = [0.625 1.25 2.5];
-% dSST = [0.625 0.75 1 1.25 1.5 2 2.5 3 5];
-% dSST = [0.625 0.75 1 1.25 2.5 5];
 linesty = {':' '--' '-'};
-% linesty = {'-' '-' '-' '-' '-' '-' '-' '-' '-'};
 lw = [1 1.5 2];
-% lw = [0.5 1 1.5 2 2.5 3 3.5 4 4.5];
 
 %% Read in SAM Mock Walker data
 for it = 1:length(tabs_s)
@@ -85,7 +79,6 @@ cld305 = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cfv2_avg'));
 
 %% Read in CAM6 RCE data with HCF
 %295
-% ncid = netcdf.open('/Users/awing/Dropbox/RCEMIP_local/var_files/large_v4/CAM6-GCM_RCE_large295_cfv0-profiles.nc');
 ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/CAM/CAM6_RCEMIP_295_3yr_HCF_1D_cldfrac_avg.nc');
 p295CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'lev'));
 cld295CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
@@ -95,7 +88,6 @@ itimeCrce = find(abs(timeCrce-100)==min(abs(timeCrce-100)));
 cld295CAM = nanmean(cld295CAM(:,itimeCrce:end),2);
 
 %300
-% ncid = netcdf.open('/Users/awing/Dropbox/RCEMIP_local/var_files/large_v4/CAM6-GCM_RCE_large300_cfv0-profiles.nc');
 ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/CAM/CAM6_RCEMIP_300_3yr_HCF_1D_cldfrac_avg.nc');
 p300CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'lev'));
 cld300CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
@@ -105,7 +97,6 @@ itimeCrce = find(abs(timeCrce-100)==min(abs(timeCrce-100)));
 cld300CAM = nanmean(cld300CAM(:,itimeCrce:end),2);
 
 %305
-% ncid = netcdf.open('/Users/awing/Dropbox/RCEMIP_local/var_files/large_v4/CAM6-GCM_RCE_large305_cfv0-profiles.nc');
 ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/CAM/CAM6_RCEMIP_305_3yr_HCF_1D_cldfrac_avg.nc');
 p305CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'lev'));
 cld305CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
@@ -113,77 +104,6 @@ cld305CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
 timeCrce = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
 itimeCrce = find(abs(timeCrce-100)==min(abs(timeCrce-100)));
 cld305CAM = nanmean(cld305CAM(:,itimeCrce:end),2);
-
-%% Plot for each SST for a given dSST in each panel
-
-% figure('Position',[100 100 1200 400]);
-figure('Position',[100 100 1200 800]);
-% SAM
-ax1 = subplot(2,length(deltaSST)+1,1);
-plot(cld295,p295,'Color',colorset1(1,1,:),'LineWidth',2,'DisplayName','295 K')
-hold on
-plot(cld300,p300,'Color',colorset1(2,1,:),'LineWidth',2,'DisplayName','300 K')
-plot(cld305,p305,'Color',colorset1(3,1,:),'LineWidth',2,'DisplayName','305 K')
-set(ax1,'FontSize',16)
-set(ax1,'Ydir','reverse')
-ylim(ax1,[0 1015])
-xlim(ax1,[0 0.35])
-title(ax1,['SAM; \DeltaSST = 0 K'])
-xlabel('Cloud Fraction')
-ylabel('Pressure (hPa)')
-legend('location','southeast')
-
-for id = 1:length(deltaSST)
-    ax1 = subplot(2,length(deltaSST)+1,id+1);
-    for it = 1:length(tabs_s)
-        hold on
-        plot(squeeze(cldfrac_avg(it,id,:)),p,'Color',colorset1(it,id,:),'LineWidth',2,'DisplayName',[num2str(tabs_s(it)) ' K'])
-    end
-    set(ax1,'FontSize',16)
-    set(ax1,'Ydir','reverse')
-    ylim(ax1,[0 1015])
-    xlim(ax1,[0 0.35])
-    title(ax1,['\DeltaSST = ' num2str(dSST(id)) ' K'])
-    xlabel('Cloud Fraction')
-%     ylabel('Pressure (hPa)')
-%     legend('location','southeast')
-    
-end
-
-% CAM
-ax1 = subplot(2,length(deltaSST)+1,length(deltaSST)+2);
-plot(cld295CAM,p295CAM,'Color',colorset1(1,1,:),'LineWidth',2,'DisplayName','295 K')
-hold on
-plot(cld300CAM,p300CAM,'Color',colorset1(2,1,:),'LineWidth',2,'DisplayName','300 K')
-plot(cld305CAM,p305CAM,'Color',colorset1(3,1,:),'LineWidth',2,'DisplayName','305 K')
-set(ax1,'FontSize',16)
-set(ax1,'Ydir','reverse')
-ylim(ax1,[0 1015])
-xlim(ax1,[0 1])
-title(ax1,['CAM6; \DeltaSST = 0 K'])
-xlabel('Cloud Fraction')
-ylabel('Pressure (hPa)')
-legend('location','southeast')
-
-for id = 1:length(deltaSST)
-    ax1 = subplot(2,length(deltaSST)+1,length(deltaSST)+2+id);
-    for it = 1:length(tabs_s)
-        hold on
-        plot(squeeze(cldfrac_avgCAM(it,id,:)),squeeze(pCAM(it,id,:)),'Color',colorset1(it,id,:),'LineWidth',2,'DisplayName',[num2str(tabs_s(it)) ' K'])
-    end
-    set(ax1,'FontSize',16)
-    set(ax1,'Ydir','reverse')
-    ylim(ax1,[0 1015])
-    xlim(ax1,[0 1])
-    title(ax1,['\DeltaSST = ' num2str(dSST(id)) ' K'])
-    xlabel('Cloud Fraction')
-%     ylabel('Pressure (hPa)')
-%     legend('location','southeast')
-    
-end
-
-
-gcfsavepdf('Fig_cldfrac_SST.pdf')
 
 %% Plot for each dSST for a given SST in each panel
 figure('Position',[100 100 1200 800]);
@@ -236,7 +156,7 @@ for it = 1:length(tabs_s)
     legend('location','southeast')
 end
 
-% gcfsavepdf('Fig_cldfrac_dSST.pdf')
+gcfsavepdf('Fig_cldfrac_dSST.pdf')
 
 
 

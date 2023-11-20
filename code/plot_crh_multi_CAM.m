@@ -1,4 +1,5 @@
 %% Compare CRH structure of Mock Walker simulations
+%plot from pre-saved CAM CRH data over 4 longitude points
 clear all
 
 tabs_s = [295 300 305];
@@ -15,7 +16,6 @@ for it = 2 %1:length(tabs_s)
         %% Read in 2D data
         runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
         dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
-%         fname = ['./CAM/MockWalk_humidity_' deltaSST{id} '_' num2str(tabs_s(it)) '_4longs.nc']
         fname = ['./CAM/MockWalk54_humidity_HCF_' deltaSST{id} '_' num2str(tabs_s(it)) '.nc']
         
         ncid = netcdf.open(fname);

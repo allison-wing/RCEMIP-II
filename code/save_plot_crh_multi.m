@@ -1,10 +1,8 @@
 %% Compare CRH structure of Mock Walker simulations
+% read in raw data, calculate CRH, write y-averaged CRH out to file
 clear all
 
 tabs_s = [295 300 305];
-colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.993248 0.906157 0.143936];
-% deltaSST = {'0p625' '1p25' '2p5' '5'};
-% deltaSST = {'0p625' '0p75' '1' '1p25'};
 deltaSST = {'0p625' '0p75' '1' '1p25' '1p5' '2' '2p5' '3' '5'};
 nproc = '128';
 
@@ -15,14 +13,14 @@ figure('Position',[100 100 1200 800])
 %% Read in 2D data
 
 for it = 3%1:length(tabs_s)
-    for id = 1%1:length(deltaSST)
+    for id = 1:length(deltaSST)
         
         runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
         dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
         filepath = ['/huracan/tank4/cornell/mockwalker/' runid '/NC_files/OUT_2D/'];
         
         if strcmp(deltaSST{id},'0p75') || strcmp(deltaSST{id},'1') || strcmp(deltaSST{id},'2p5')
-            %read from 3D-based version
+            %read from 3D-based 6-hourly instantaneous data
             ncid = netcdf.open([filepath 'SAM_CRM_' runid '_2D_prw.nc']);
             x = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'x'));
             time = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
@@ -31,9 +29,7 @@ for it = 3%1:length(tabs_s)
             ncid = netcdf.open([filepath 'SAM_CRM_' runid '_2D_sprw.nc']);
             spw = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'sprw'));
             
-        else
-            
-            
+        else %read from 2D hourly-average data           
             %file 1
             ncid = netcdf.open([filepath 'mockwalker_2048x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K_' num2str(nproc) '.2Dcom_1.nc']);
             x = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'x'));
@@ -114,4 +110,4 @@ for it = 3%1:length(tabs_s)
     end
 end
 
-% gcfsavepdf(['Fig_CRHhov' num2str(tabs_s(it)) '_v2.pdf'])
+gcfsavepdf(['Fig_CRHhov' num2str(tabs_s(it)) '_v2.pdf'])

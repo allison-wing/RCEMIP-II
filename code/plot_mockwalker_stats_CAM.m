@@ -1,16 +1,35 @@
 clear all
 
-tabs_s = [295 300 305];
-colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.993248 0.906157 0.143936];
-deltaSST = {'0p625' '1p25' '2p5'};
-% deltaSST = {'0p625' '0p75' '1' '1p25' '1p5' '2' '2p5' '3' '5'};
-% deltaSST = {'0p625' '0p75' '1'};
-% deltaSST = {'1p25' '1p5' '2'};
-% deltaSST = {'2p5' '3' '5'};
-linesty = {':' '--' '-'};
-% linesty = {'-' '-' '-'};
-lw = [2 2 2];
-% lw = [1 2 3];
+% Set Figure Option
+%1,2,3: run options 1, 2, and 3 to generate each CAM part of Fig_MW_statevol_5day_300_groups. 
+%4: run option 4 to generate CAM part of Fig_MW_statevol_5day_SAMCAM.
+dofigoption = 1;
+
+if dofigoption==1
+    deltaSST = {'0p625' '0p75' '1'};
+    linesty = {'-' '-' '-'};
+    lw = [1 2 3];
+    tabs_s = [300];
+    colorset = [0.127568 0.566949 0.550556];
+elseif dofigoption==2
+    deltaSST = {'1p25' '1p5' '2'};
+    linesty = {'-' '-' '-'};
+    lw = [1 2 3];
+    tabs_s = [300];
+    colorset = [0.127568 0.566949 0.550556];
+elseif dofigoption==3
+    deltaSST = {'2p5' '3' '5'};
+    linesty = {'-' '-' '-'};
+    lw = [1 2 3];
+    tabs_s = [300];
+    colorset = [0.127568 0.566949 0.550556];
+elseif dofigoption==4
+    deltaSST = {'0p625' '1p25' '2p5'};
+    linesty = {':' '--' '-'};
+    lw = [2 2 2];
+    tabs_s = [295 300 305];
+    colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.993248 0.906157 0.143936];
+end
 
 
 %% Read in data
@@ -24,10 +43,6 @@ for it = 1:length(tabs_s)
         colorset1(count,:) = colorset(it,:);
         linesty1{count} = linesty{id};
         lw1(count) = lw(id);
-        
-        %         ncid = netcdf.open(['./CAM/' runid '_prw_avg.nc']);
-        %         time = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
-        %         prw(:,count) = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'prw_avg'));
         
         ncid = netcdf.open(['./CAM/' runid '_rlut_avg.nc']);
         time1 = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
@@ -68,13 +83,6 @@ for i = 1:count
     hold on
     plot(timey(24*5:end-24*5),SWNTsmooth(24*5:end-24*5),'Color',colorset1(i,:),'LineStyle',linesty1{i},'LineWidth',lw1(i),'DisplayName',dnames{i})
     
-    %         subplot(2,2,3)
-    %         hold on
-    %         plot(time(24*5:end-24*5),prwsmooth(24*5:end-24*5),'Color',colorset1(i,:),'LineStyle',linesty1{i},'LineWidth',lw1(i),'DisplayName',dnames{i})
-    
-    %     subplot(2,2,4)
-    %     hold on
-    %     plot(time,pr(i,:),'Color',colorset1(i,:),'LineStyle',linesty1{i},'LineWidth',lw1(i),'DisplayName',dnames{i})
 end
 
 subplot(2,2,1)
@@ -82,39 +90,35 @@ set(gca,'FontSize',16)
 xlabel('Time (days)')
 ylabel('W m^{-2}')
 title('(d) CAM: OLR')
-ylim([230 310]) 
-% ylim([245 310])
+ylim([220 305])
 xlim([0 200])
-% legend('location','southeast')
 
 subplot(2,2,2)
 set(gca,'FontSize',16)
 xlabel('Time (days)')
 ylabel('W m^{-2}')
-title('(e) CAM: Net SW at TOA')
-ylim([315 345])
-% ylim([290 350])
+if dofigure==1 
+    title('(d) Weak SST Gradients: CAM')
+    ylim([290 350])
+elseif dofigure==2 
+    title('(e) Moderate SST Gradients: CAM')
+    ylim([290 350])
+elseif dofigure==3 
+    title('(f) Strong SST Gradients: CAM')  
+    ylim([290 350])
+elseif dofigure==4
+    title('(e) CAM: Net SW at TOA')
+    ylim([320 350])
+end
 xlim([0 200])
 legend('location','northeast')
 
-% subplot(2,2,3)
-% set(gca,'FontSize',16)
-% xlabel('Time (days)')
-% ylabel('mm')
-% title('(f) Precipitable Water')
-% xlim([0 200])
-% legend('location','northeast')
-
-% subplot(2,2,4)
-% set(gca,'FontSize',16)
-% xlabel('Time (days)')
-% ylabel('mm d^{-1}')
-% title('(d) Precipitation Rate')
-% xlim([0 200])
-% legend('location','northeast')
-
-%     gcfsavepdf('Fig_MW_statevol_5day_CAM.pdf')
-% gcfsavepdf('Fig_MW_statevol_5day_CAM_300.pdf')
-
-
-
+if dofigure==1 
+    gcfsavepdf('Fig_MW_statevol_5day_CAM_300_g1.pdf')
+elseif dofigure==2 
+    gcfsavepdf('Fig_MW_statevol_5day_CAM_300_g2.pdf')
+elseif dofigure==3 
+    gcfsavepdf('Fig_MW_statevol_5day_CAM_300_g3.pdf')    
+elseif dofigure==4
+    gcfsavepdf('Fig_MW_statevol_5day_CAM.pdf')
+end

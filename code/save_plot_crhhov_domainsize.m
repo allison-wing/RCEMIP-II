@@ -1,4 +1,6 @@
 %% Compare CRH hovmuller of Mock Walker simulations, domain size test
+% read in data, calculate y-averaged CRH, write y-averaged CRH out to file
+%change tabs_s to do different SST
 clear all
 
 figure('Position',[100 100 1200 800])

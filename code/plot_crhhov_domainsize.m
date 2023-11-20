@@ -1,4 +1,5 @@
 %% Compare CRH structure of Mock Walker simulations
+%plot from pre-saved y-averaged CRH data
 clear all
 
 figure('Position',[100 100 1200 800])

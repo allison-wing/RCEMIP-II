@@ -1,10 +1,8 @@
+%% Plot SST pattern for required RCEMIP-II simulations
+
 tabs_s = [295 300 305];
-% colorset = [75/255 0 130/255; 0 206/255 209/255; 255/255 215/255 0];
-colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.993248 0.906157 0.143936];
-% deltaSST = [0.625 1.25 2.5 5];
-% linesty = {':' '--' '-.' '-'};
+colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.8784 0.7137 0.1686];
 deltaSST = [0.625 1.25 2.5];
-% deltaSST = [1 2 3];
 linesty = {':' '--' '-'};
 
 %% Plot all experiments for a given domain [option 4]
