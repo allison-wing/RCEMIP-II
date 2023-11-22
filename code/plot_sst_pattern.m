@@ -1,4 +1,5 @@
 %% Plot SST pattern for required RCEMIP-II simulations
+%Figure 1: Fig_MW_sst_pattern.pdf
 
 tabs_s = [295 300 305];
 colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.8784 0.7137 0.1686];

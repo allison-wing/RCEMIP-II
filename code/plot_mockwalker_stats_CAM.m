@@ -1,9 +1,14 @@
+%% Plot time evolution of domain-average statistics for CAM simulations
+% Figure 6: Fig_MW_statevol_5day_300_groups.pdf
+% Figure 7: Fig_MW_statevol_5day_SAMCAM.pdf
+% parts of figures are combined/edited in Illustrator
+
 clear all
 
 % Set Figure Option
 %1,2,3: run options 1, 2, and 3 to generate each CAM part of Fig_MW_statevol_5day_300_groups. 
 %4: run option 4 to generate CAM part of Fig_MW_statevol_5day_SAMCAM.
-dofigoption = 1;
+dofigoption = 4;
 
 if dofigoption==1
     deltaSST = {'0p625' '0p75' '1'};
@@ -28,7 +33,7 @@ elseif dofigoption==4
     linesty = {':' '--' '-'};
     lw = [2 2 2];
     tabs_s = [295 300 305];
-    colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.993248 0.906157 0.143936];
+    colorset = [0.267004 0.004874 0.329415; 0.127568 0.566949 0.550556; 0.8784 0.7137 0.1686];
 end
 
 
@@ -44,13 +49,13 @@ for it = 1:length(tabs_s)
         linesty1{count} = linesty{id};
         lw1(count) = lw(id);
         
-        ncid = netcdf.open(['./CAM/' runid '_rlut_avg.nc']);
+        ncid = netcdf.open(['/Users/awing/Dropbox/mockwalker/data/CAM6/' runid '_rlut_avg.nc']);
         time1 = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
         OLR1 = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'rlut_avg'));
         
-        ncid = netcdf.open(['./CAM/' runid '_rsut_avg.nc']);
+        ncid = netcdf.open(['/Users/awing/Dropbox/mockwalker/data/CAM6/' runid '_rsut_avg.nc']);
         rsut = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'rsut_avg'));
-        ncid = netcdf.open(['./CAM/' runid '_rsdt_avg.nc']);
+        ncid = netcdf.open(['/Users/awing/Dropbox/mockwalker/data/CAM6/' runid '_rsdt_avg.nc']);
         rsdt = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'rsdt_avg'));
         SWNT1 = rsdt - rsut;
         
@@ -97,28 +102,28 @@ subplot(2,2,2)
 set(gca,'FontSize',16)
 xlabel('Time (days)')
 ylabel('W m^{-2}')
-if dofigure==1 
+if dofigoption==1 
     title('(d) Weak SST Gradients: CAM')
     ylim([290 350])
-elseif dofigure==2 
+elseif dofigoption==2 
     title('(e) Moderate SST Gradients: CAM')
     ylim([290 350])
-elseif dofigure==3 
+elseif dofigoption==3 
     title('(f) Strong SST Gradients: CAM')  
     ylim([290 350])
-elseif dofigure==4
+elseif dofigoption==4
     title('(e) CAM: Net SW at TOA')
     ylim([320 350])
 end
 xlim([0 200])
 legend('location','northeast')
 
-if dofigure==1 
+if dofigoption==1 
     gcfsavepdf('Fig_MW_statevol_5day_CAM_300_g1.pdf')
-elseif dofigure==2 
+elseif dofigoption==2 
     gcfsavepdf('Fig_MW_statevol_5day_CAM_300_g2.pdf')
-elseif dofigure==3 
+elseif dofigoption==3 
     gcfsavepdf('Fig_MW_statevol_5day_CAM_300_g3.pdf')    
-elseif dofigure==4
+elseif dofigoption==4
     gcfsavepdf('Fig_MW_statevol_5day_CAM.pdf')
 end

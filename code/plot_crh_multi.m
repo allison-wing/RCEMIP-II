@@ -1,5 +1,6 @@
 %% Compare CRH structure of Mock Walker simulations
 %plot from pre-saved y-averaged CRH data
+%Figure 4: Fig_CRHhov300_v2.pdf
 clear all
 
 tabs_s = [295 300 305];

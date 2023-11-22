@@ -1,5 +1,6 @@
 %% Compare CRH structure of Mock Walker simulations
 %plot from pre-saved CAM CRH data over 4 longitude points
+%Figure 5: Fig_CRHhov300_CAMd200.pdf
 clear all
 
 tabs_s = [295 300 305];
