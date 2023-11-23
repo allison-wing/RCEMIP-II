@@ -1,3 +1,6 @@
+%% Plots cloud fraction at different SSTs
+%Figure 8: Fig_cldfrac_dSST.pdf 
+
 clear all
 
 tabs_s = [295 300 305];
@@ -21,7 +24,7 @@ for it = 1:length(tabs_s)
 %         filepath = ['/huracan/tank4/cornell/mockwalker/' runid '/NC_files/OUT_STAT/'];        
 %         ncid = netcdf.open([filepath 'mockwalker_2048x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);        
 %         cldfrac(it,id,:,:) = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'CLD'));
-        ncid = netcdf.open(['/Users/awing/Dropbox/mockwalker/data/lambda6144/SAM_CRM_' runid '_1D_cldfrac_avg.nc']);
+        ncid = netcdf.open(['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda6144/SAM_CRM_' runid '_1D_cldfrac_avg.nc']);
         cldfrac(it,id,:,:) = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
         time = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
         z = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'z'));
@@ -42,7 +45,7 @@ timeCAM = nan(length(tabs_s),length(deltaSST),4400);
 itimeCAM = nan(length(tabs_s),length(deltaSST));
 for it = 1:length(tabs_s)
     for id = 1:length(deltaSST)
-        file = ['./CAM/CAM6_MockW_' deltaSST{id} 'K_cos_' num2str(tabs_s(it)) '_3yr_HCF_1D_cldfrac_avg.nc'];
+        file = ['/Users/awing/Dropbox/mockwalker/data/CAM6/CAM6_MockW_' deltaSST{id} 'K_cos_' num2str(tabs_s(it)) '_3yr_HCF_1D_cldfrac_avg.nc'];
         if isfile(file)
             ncid = netcdf.open(file);
             timeC = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'time'));
@@ -79,7 +82,7 @@ cld305 = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cfv2_avg'));
 
 %% Read in CAM6 RCE data with HCF
 %295
-ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/CAM/CAM6_RCEMIP_295_3yr_HCF_1D_cldfrac_avg.nc');
+ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/data/CAM6/CAM6_RCEMIP_295_3yr_HCF_1D_cldfrac_avg.nc');
 p295CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'lev'));
 cld295CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
 % Take average excluding first 100 days
@@ -88,7 +91,7 @@ itimeCrce = find(abs(timeCrce-100)==min(abs(timeCrce-100)));
 cld295CAM = nanmean(cld295CAM(:,itimeCrce:end),2);
 
 %300
-ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/CAM/CAM6_RCEMIP_300_3yr_HCF_1D_cldfrac_avg.nc');
+ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/data/CAM6/CAM6_RCEMIP_300_3yr_HCF_1D_cldfrac_avg.nc');
 p300CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'lev'));
 cld300CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
 % Take average excluding first 100 days
@@ -97,7 +100,7 @@ itimeCrce = find(abs(timeCrce-100)==min(abs(timeCrce-100)));
 cld300CAM = nanmean(cld300CAM(:,itimeCrce:end),2);
 
 %305
-ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/CAM/CAM6_RCEMIP_305_3yr_HCF_1D_cldfrac_avg.nc');
+ncid = netcdf.open('/Users/awing/Dropbox/mockwalker/data/CAM6/CAM6_RCEMIP_305_3yr_HCF_1D_cldfrac_avg.nc');
 p305CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'lev'));
 cld305CAM = netcdf.getVar(ncid,netcdf.inqVarID(ncid,'cldfrac_avg'));
 % Take average excluding first 100 days

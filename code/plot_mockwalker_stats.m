@@ -10,7 +10,7 @@ clear all
 %1,2,3: run options 1, 2, and 3 to generate each SAM part of Fig_MW_statevol_5day_300_groups.pdf
 %4: run option 4 to generate SAM part of Fig_MW_statevol_5day_SAMCAM.pdf
 %5,6: run options 5 and 6 to generate Fig_MW_statevol_5day_domainsize.pdf
-dofigoption = 4;
+dofigoption = 6;
 
 if dofigoption==1
     deltaSST = {'0p625' '0p75' '1'};
@@ -41,13 +41,13 @@ elseif dofigoption==5
     linesty = {'-' '-' '-' '--'};
     lw = [1 2 3 3];
     tabs_s = [300];
-    colorset = [133/255 145/255 140/255; 33/255 79/255 140/255; 136/255 96/255 140/255 231/255 79/255 140/255];
+    colorset = [33/255 145/255 140/255; 33/255 79/255 140/255; 136/255 96/255 140/255; 231/255 79/255 140/255];
 elseif dofigoption==6
     deltaSST = {'2p5' '2p5' '2p5'};
     linesty = {'-' '-' '-'};
     lw = [1 2 3];
     tabs_s = [300];
-    colorset = [133/255 145/255 140/255; 33/255 79/255 140/255; 136/255 96/255 140/255 231/255];
+    colorset = [33/255 145/255 140/255; 33/255 79/255 140/255; 136/255 96/255 140/255];
 end
 
 
@@ -56,46 +56,53 @@ count = 1;
 for it = 1:length(tabs_s)
     for id = 1:length(deltaSST)
         if dofigoption==5 %1.25 domain size test
-            dnames(count) = {dname};
+            
             colorset1(count,:) = colorset(id,:);
             linesty1{count} = linesty{id};
             lw1(count) = lw(id);
-            filepath = ['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda600/'];
+            filepath = ['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda6000/'];
             if id==1
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
                 ncid = netcdf.open([filepath 'mockwalker_2048x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             elseif id==2
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'wide'];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'wide'];
                 ncid = netcdf.open([filepath 'mockwalker_2048x256x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             elseif id==3
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'long'];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'long'];
                 ncid = netcdf.open([filepath 'mockwalker_4096x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             elseif id==4
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'longwide'];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'longwide'];
                 ncid = netcdf.open([filepath 'mockwalker_4096x256x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             end
         elseif dofigoption==6 %2.5 domain size test
-            dnames(count) = {dname};
+            
             colorset1(count,:) = colorset(id,:);
             linesty1{count} = linesty{id};
             lw1(count) = lw(id);
-            filepath = ['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda600/'];
+            filepath = ['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda6000/'];
             if id==1
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
                 ncid = netcdf.open([filepath 'mockwalker_2048x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             elseif id==2
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'wide'];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'wide'];
                 ncid = netcdf.open([filepath 'mockwalker_2048x256x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             elseif id==3
                 runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'long'];
                 dname = ['MW\_' num2str(tabs_s(it)) 'dT' deltaSST{id} 'long'];
                 ncid = netcdf.open([filepath 'mockwalker_4096x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
+                dnames(count) = {dname};
             end
         elseif dofigoption ==4 %(required sims)
             runid = ['MW_' num2str(tabs_s(it)) 'dT' deltaSST{id}];
@@ -113,7 +120,7 @@ for it = 1:length(tabs_s)
             colorset1(count,:) = colorset(it,:);
             linesty1{count} = linesty{id};
             lw1(count) = lw(id);
-            filepath = ['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda600/'];
+            filepath = ['/Users/awing/Dropbox/mockwalker/data/SAM6.11.2/lambda6000/'];
             ncid = netcdf.open([filepath 'mockwalker_2048x128x74_3km_12s_' num2str(tabs_s(it)) 'K_' deltaSST{id} 'K.nc']);
         end
         
